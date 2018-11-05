@@ -8,20 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		1B2CE485218FAFC000F24A18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CE484218FAFC000F24A18 /* AppDelegate.swift */; };
-		1B2CE487218FAFC000F24A18 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CE486218FAFC000F24A18 /* ViewController.swift */; };
+		1B2CE487218FAFC000F24A18 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CE486218FAFC000F24A18 /* TodoListViewController.swift */; };
 		1B2CE48A218FAFC000F24A18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B2CE488218FAFC000F24A18 /* Main.storyboard */; };
 		1B2CE48C218FAFC200F24A18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B2CE48B218FAFC200F24A18 /* Assets.xcassets */; };
 		1B2CE48F218FAFC200F24A18 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B2CE48D218FAFC200F24A18 /* LaunchScreen.storyboard */; };
+		1B5070F8218FCB9A00BC5F09 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B5070F7218FCB9A00BC5F09 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1B2CE481218FAFC000F24A18 /* Todoey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todoey.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B2CE481218FAFC000F24A18 /* ZenDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZenDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B2CE484218FAFC000F24A18 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1B2CE486218FAFC000F24A18 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1B2CE486218FAFC000F24A18 /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
 		1B2CE489218FAFC000F24A18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1B2CE48B218FAFC200F24A18 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B2CE48E218FAFC200F24A18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1B2CE490218FAFC200F24A18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B5070F7218FCB9A00BC5F09 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +40,8 @@
 		1B2CE478218FAFC000F24A18 = {
 			isa = PBXGroup;
 			children = (
-				1B2CE483218FAFC000F24A18 /* Todoey */,
+				1B5070F7218FCB9A00BC5F09 /* Default-568h@2x.png */,
+				1B2CE483218FAFC000F24A18 /* ZenDo */,
 				1B2CE482218FAFC000F24A18 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,30 +49,30 @@
 		1B2CE482218FAFC000F24A18 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1B2CE481218FAFC000F24A18 /* Todoey.app */,
+				1B2CE481218FAFC000F24A18 /* ZenDo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1B2CE483218FAFC000F24A18 /* Todoey */ = {
+		1B2CE483218FAFC000F24A18 /* ZenDo */ = {
 			isa = PBXGroup;
 			children = (
 				1B2CE484218FAFC000F24A18 /* AppDelegate.swift */,
-				1B2CE486218FAFC000F24A18 /* ViewController.swift */,
+				1B2CE486218FAFC000F24A18 /* TodoListViewController.swift */,
 				1B2CE488218FAFC000F24A18 /* Main.storyboard */,
 				1B2CE48B218FAFC200F24A18 /* Assets.xcassets */,
 				1B2CE48D218FAFC200F24A18 /* LaunchScreen.storyboard */,
 				1B2CE490218FAFC200F24A18 /* Info.plist */,
 			);
-			path = Todoey;
+			path = ZenDo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1B2CE480218FAFC000F24A18 /* Todoey */ = {
+		1B2CE480218FAFC000F24A18 /* ZenDo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1B2CE493218FAFC200F24A18 /* Build configuration list for PBXNativeTarget "Todoey" */;
+			buildConfigurationList = 1B2CE493218FAFC200F24A18 /* Build configuration list for PBXNativeTarget "ZenDo" */;
 			buildPhases = (
 				1B2CE47D218FAFC000F24A18 /* Sources */,
 				1B2CE47E218FAFC000F24A18 /* Frameworks */,
@@ -79,9 +82,9 @@
 			);
 			dependencies = (
 			);
-			name = Todoey;
+			name = ZenDo;
 			productName = Todoey;
-			productReference = 1B2CE481218FAFC000F24A18 /* Todoey.app */;
+			productReference = 1B2CE481218FAFC000F24A18 /* ZenDo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -99,7 +102,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1B2CE47C218FAFC000F24A18 /* Build configuration list for PBXProject "Todoey" */;
+			buildConfigurationList = 1B2CE47C218FAFC000F24A18 /* Build configuration list for PBXProject "ZenDo" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -112,7 +115,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1B2CE480218FAFC000F24A18 /* Todoey */,
+				1B2CE480218FAFC000F24A18 /* ZenDo */,
 			);
 		};
 /* End PBXProject section */
@@ -123,6 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B2CE48F218FAFC200F24A18 /* LaunchScreen.storyboard in Resources */,
+				1B5070F8218FCB9A00BC5F09 /* Default-568h@2x.png in Resources */,
 				1B2CE48C218FAFC200F24A18 /* Assets.xcassets in Resources */,
 				1B2CE48A218FAFC000F24A18 /* Main.storyboard in Resources */,
 			);
@@ -135,7 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B2CE487218FAFC000F24A18 /* ViewController.swift in Sources */,
+				1B2CE487218FAFC000F24A18 /* TodoListViewController.swift in Sources */,
 				1B2CE485218FAFC000F24A18 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,13 +288,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B8R8A6VY62;
-				INFOPLIST_FILE = Todoey/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/ZenDo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = roy.cory.Todoey;
+				PRODUCT_BUNDLE_IDENTIFIER = roy.cory.ZenDo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -303,13 +307,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B8R8A6VY62;
-				INFOPLIST_FILE = Todoey/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/ZenDo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = roy.cory.Todoey;
+				PRODUCT_BUNDLE_IDENTIFIER = roy.cory.ZenDo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -319,7 +323,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1B2CE47C218FAFC000F24A18 /* Build configuration list for PBXProject "Todoey" */ = {
+		1B2CE47C218FAFC000F24A18 /* Build configuration list for PBXProject "ZenDo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B2CE491218FAFC200F24A18 /* Debug */,
@@ -328,7 +332,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1B2CE493218FAFC200F24A18 /* Build configuration list for PBXNativeTarget "Todoey" */ = {
+		1B2CE493218FAFC200F24A18 /* Build configuration list for PBXNativeTarget "ZenDo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B2CE494218FAFC200F24A18 /* Debug */,
