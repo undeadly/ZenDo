@@ -10,13 +10,37 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
-    let itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
+    var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    @IBAction func addItemTapped(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let addPopup = UIAlertController(title: "Add some zen", message: "", preferredStyle: .alert
+        )
+
+        addPopup.addTextField {
+            (alertTextField) in
+            alertTextField.placeholder = "I'll feel better when this down..."
+            textField = alertTextField
+        }
+        
+        let action = UIAlertAction(title: "Add Item", style: .default) {
+            (action) in
+            self.itemArray.append(textField.text!)
+            self.tableView.reloadData()
+        }
+        
+        
+        addPopup.addAction(action)
+        
+        present(addPopup, animated: true, completion: nil)
+    }
     //MARK - Tableview Datasource methods
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
