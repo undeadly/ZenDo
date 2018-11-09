@@ -13,7 +13,13 @@ class TodoListViewController: UITableViewController {
     
     var itemArray: [TodoItem] = [TodoItem]()
     
-    var defaults = UserDefaults.standard
+    var category: Category? {
+        didSet {
+            loadData()
+        }
+    }
+    
+    //var defaults = UserDefaults.standard
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -22,10 +28,9 @@ class TodoListViewController: UITableViewController {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory,
                                        in: .userDomainMask))
-        
+        print(category)
         loadData()
     }
-    
     
     
     @IBAction func addItemTapped(_ sender: UIBarButtonItem) {
@@ -45,6 +50,7 @@ class TodoListViewController: UITableViewController {
             
             let newItem = TodoItem(context: self.context)
             newItem.title = textField.text!
+            newItem.parentCategory = self.category
             self.itemArray.append(newItem)
             self.saveData()
         }
@@ -72,8 +78,6 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentTodoItem = itemArray[indexPath.row]
         print(indexPath.row, currentTodoItem.title)
-        //        context.delete(currentTodoItem)
-        //        itemArray.remove(at: indexPath.row)
         currentTodoItem.done = !currentTodoItem.done
         
         saveData()
@@ -96,10 +100,18 @@ class TodoListViewController: UITableViewController {
         let request : NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
         do {
             let cleanedFilterString = filterString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            let titlePredicate = NSPredicate(format: "title CONTAINS[cd] %@", filterString)
+            let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", category!.name!)
+            
             if cleanedFilterString.count > 0 {
-                request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", filterString)
-                request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+                let andPredicate = NSCompoundPredicate(type: .and, subpredicates: [titlePredicate, categoryPredicate])
+                request.predicate = andPredicate
+            } else {
+                request.predicate = categoryPredicate
             }
+            
+            request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+            
             try itemArray = context.fetch(request)
             tableView.reloadData()
         } catch {
@@ -111,9 +123,11 @@ class TodoListViewController: UITableViewController {
 extension TodoListViewController: UISearchBarDelegate {
     
     // This function maybe unneccesary now
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        loadData(searchBar.text!)
-//    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        DispatchQueue.main.async {
+            searchBar.resignFirstResponder()
+        }
+    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         loadData(searchText)
@@ -121,7 +135,9 @@ extension TodoListViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         loadData()
+        DispatchQueue.main.async {
+            searchBar.resignFirstResponder()
+        }
     }
-    
 }
 

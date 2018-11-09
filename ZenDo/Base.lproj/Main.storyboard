@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--ZenDo-->
+        <!--Items-->
         <scene sceneID="sMR-CM-8FK">
             <objects>
                 <tableViewController id="QUY-no-vsJ" customClass="TodoListViewController" customModule="ZenDo" customModuleProvider="target" sceneMemberID="viewController">
@@ -40,7 +40,7 @@
                             <outlet property="delegate" destination="QUY-no-vsJ" id="cHV-Vg-VZm"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="ZenDo" id="qX7-JH-rwQ">
+                    <navigationItem key="navigationItem" title="Items" id="qX7-JH-rwQ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="8Ln-bq-Gt8">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -51,7 +51,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3O6-v6-Q0J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1600.8" y="133.5832083958021"/>
+            <point key="canvasLocation" x="1666" y="-152"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="D7N-Y9-yXz">
@@ -68,12 +68,51 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="QUY-no-vsJ" kind="relationship" relationship="rootViewController" id="NZB-QT-ATu"/>
+                        <segue destination="7qn-hB-yKQ" kind="relationship" relationship="rootViewController" id="T0G-n0-qWx"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N1z-Al-zLh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="661.60000000000002" y="133.5832083958021"/>
+            <point key="canvasLocation" x="65" y="-152"/>
+        </scene>
+        <!--ZenDo-->
+        <scene sceneID="cmN-u8-TFn">
+            <objects>
+                <tableViewController id="7qn-hB-yKQ" customClass="CategoryViewController" customModule="ZenDo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="w9J-IF-amZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryCell" id="BP7-kF-khf">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BP7-kF-khf" id="GHP-Dw-FSD">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7qn-hB-yKQ" id="BYQ-8R-d60"/>
+                            <outlet property="delegate" destination="7qn-hB-yKQ" id="rn8-5O-vZn"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="ZenDo" id="hk2-DS-FdI">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Sb-mD-VgB">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addButtonTapped:" destination="7qn-hB-yKQ" id="P4j-fq-12u"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="QUY-no-vsJ" kind="show" identifier="goToItems" id="pDu-tK-VJo"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FFo-hd-MKA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="910" y="-152"/>
         </scene>
     </scenes>
 </document>
