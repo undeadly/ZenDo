@@ -7,22 +7,18 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class TodoListViewController: UITableViewController {
     
-    var itemArray: [TodoItem] = [TodoItem]()
+    var items: Results<TodoItem>?
+    let realm = try! Realm()
     
     var category: Category? {
         didSet {
             loadData()
         }
     }
-    
-    //var defaults = UserDefaults.standard
-    
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,12 +43,21 @@ class TodoListViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add Item", style: .default) {
             (action) in
-            
-            let newItem = TodoItem(context: self.context)
-            newItem.title = textField.text!
-            newItem.parentCategory = self.category
-            self.itemArray.append(newItem)
-            self.saveData()
+
+            if let currentCategory = self.category {
+                do {
+                    try self.realm.write {
+                        let newItem = TodoItem()
+                        newItem.title = textField.text!
+                        currentCategory.items.append(newItem)
+                        self.realm.add(newItem)
+                    }
+                } catch {
+                    print("error saving context: \(error)")
+                }
+                
+                self.tableView.reloadData()
+            }
         }
         
         addPopup.addAction(action)
@@ -62,61 +67,49 @@ class TodoListViewController: UITableViewController {
     //MARK - Tableview Datasource methods
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell")
-        let currentTodoItem = itemArray[indexPath.row]
-        cell!.textLabel?.text = currentTodoItem.title
-        cell!.accessoryType = currentTodoItem.done ? .checkmark : .none
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        if let currentTodoItem = items?[indexPath.row] {
+            cell.textLabel?.text = currentTodoItem.title
+            cell.accessoryType = currentTodoItem.done ? .checkmark : .none
+        } else {
+            cell.textLabel?.text = "No items added"
+        }
+        
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemArray.count
+        return items?.count ?? 1
     }
     
     //MARK - Tableview Delegate methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentTodoItem = itemArray[indexPath.row]
-        print(indexPath.row, currentTodoItem.title)
-        currentTodoItem.done = !currentTodoItem.done
-        
-        saveData()
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    //MARK: - data manipulation methods
-    func saveData() {
-        do {
-            try context.save()
-        } catch {
-            print("error saving context: \(error)")
+        if let currentTodoItem = items?[indexPath.row] {
+            do {
+                print(indexPath.row, currentTodoItem.title, currentTodoItem.done)
+                try realm.write {
+                    currentTodoItem.done = !currentTodoItem.done
+                }
+                tableView.reloadData()
+            } catch {
+                print("error updating item in realm: \(error)")
+            }
         }
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        tableView.reloadData()
     }
     
     func loadData(_ filterString: String = "") {
-        let request : NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
-        do {
-            let cleanedFilterString = filterString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            let titlePredicate = NSPredicate(format: "title CONTAINS[cd] %@", filterString)
-            let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", category!.name!)
-            
-            if cleanedFilterString.count > 0 {
-                let andPredicate = NSCompoundPredicate(type: .and, subpredicates: [titlePredicate, categoryPredicate])
-                request.predicate = andPredicate
-            } else {
-                request.predicate = categoryPredicate
-            }
-            
-            request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-            
-            try itemArray = context.fetch(request)
-            tableView.reloadData()
-        } catch {
-            print("Error fetching data from context")
+        let cleanedFilterString = filterString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let titlePredicate = NSPredicate(format: "title CONTAINS[cd] %@", filterString)
+        
+        if cleanedFilterString.count > 0 {
+            items = category?.items.filter(titlePredicate).sorted(byKeyPath: "title", ascending: true)
+        } else {
+            items = category?.items.sorted(byKeyPath: "title", ascending: true)
         }
+        tableView.reloadData()
     }
 }
 

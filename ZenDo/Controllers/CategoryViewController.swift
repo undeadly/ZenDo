@@ -7,12 +7,13 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class CategoryViewController: UITableViewController {
     
+    let realm = try! Realm()
     
-    var itemArray: [Category] = [Category]()
+    var itemArray: Results<Category>?
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
@@ -37,10 +38,9 @@ class CategoryViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) {
             (action) in
             
-            let category = Category(context: self.context)
+            let category = Category()
             category.name = textField.text!
-            self.itemArray.append(category)
-            self.saveData()
+            self.save(category: category)
         }
         
         addPopup.addAction(action)
@@ -56,28 +56,25 @@ class CategoryViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return itemArray.count
+        return itemArray?.count ?? 1
     }
     
     //MARK - Tableview Datasource methods
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell")
-        let category = itemArray[indexPath.row]
-        cell!.textLabel?.text = category.name
+        let category = itemArray?[indexPath.row]
+        cell!.textLabel?.text = category?.name ?? "No Categorie added yet"
         return cell!
     }
     
     //MARK - Tableview Delegate methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentCategory = itemArray[indexPath.row]
-        print(indexPath.row, currentCategory.name)
+        let currentCategory = itemArray?[indexPath.row]
+        print(indexPath.row, currentCategory?.name)
         // go to itemlist
         performSegue(withIdentifier: "goToItems", sender: currentCategory)
-
-        saveData()
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
@@ -97,9 +94,11 @@ class CategoryViewController: UITableViewController {
 
     
     //MARK: - data manipulation methods
-    func saveData() {
+    func save(category: Category) {
         do {
-            try context.save()
+            try realm.write {
+                realm.add(category)
+            }
         } catch {
             print("error saving context: \(error)")
         }
@@ -108,18 +107,7 @@ class CategoryViewController: UITableViewController {
     }
     
     func loadData(_ filterString: String = "") {
-        let request : NSFetchRequest<Category> = Category.fetchRequest()
-        do {
-            let cleanedFilterString = filterString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            if cleanedFilterString.count > 0 {
-                request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", filterString)
-                request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-            }
-            try itemArray = context.fetch(request)
-            tableView.reloadData()
-        } catch {
-            print("Error fetching category data from context")
-        }
+        itemArray = realm.objects(Category.self)
     }
 
 }
