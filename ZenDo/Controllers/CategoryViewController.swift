@@ -15,8 +15,6 @@ class CategoryViewController: UITableViewController {
     
     var itemArray: Results<Category>?
 
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory,
@@ -72,7 +70,7 @@ class CategoryViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCategory = itemArray?[indexPath.row]
-        print(indexPath.row, currentCategory?.name)
+        print(indexPath.row, currentCategory?.name ?? "No category!")
         // go to itemlist
         performSegue(withIdentifier: "goToItems", sender: currentCategory)
         tableView.deselectRow(at: indexPath, animated: true)

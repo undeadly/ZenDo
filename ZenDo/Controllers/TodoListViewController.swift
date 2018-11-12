@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Todoey
+//  Zendo
 //
 //  Created by cory.roy on 2018-11-04.
 //  Copyright © 2018 cory.roy. All rights reserved.
@@ -24,7 +24,7 @@ class TodoListViewController: UITableViewController {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory,
                                        in: .userDomainMask))
-        print(category)
+        print(category ?? "no Category")
         loadData()
     }
     
@@ -105,9 +105,9 @@ class TodoListViewController: UITableViewController {
         let titlePredicate = NSPredicate(format: "title CONTAINS[cd] %@", filterString)
         
         if cleanedFilterString.count > 0 {
-            items = category?.items.filter(titlePredicate).sorted(byKeyPath: "title", ascending: true)
+            items = category?.items.filter(titlePredicate).sorted(byKeyPath: "createdAt", ascending: true)
         } else {
-            items = category?.items.sorted(byKeyPath: "title", ascending: true)
+            items = category?.items.sorted(byKeyPath: "createdAt", ascending: true)
         }
         tableView.reloadData()
     }
