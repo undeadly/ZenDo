@@ -8,5 +8,6 @@ target 'ZenDo' do
   # Pods for ZenDo
 
 pod 'RealmSwift'
+pod 'SwipeCellKit'
 
 end

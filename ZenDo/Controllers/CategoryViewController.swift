@@ -9,19 +9,21 @@
 import UIKit
 import RealmSwift
 
-class CategoryViewController: UITableViewController {
+class CategoryViewController: SwipeTableViewController {
     
     let realm = try! Realm()
     
     var itemArray: Results<Category>?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory,
                                        in: .userDomainMask))
+        
+        tableView.rowHeight = 80.0
         loadData()
     }
-
+    
     @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         
@@ -46,12 +48,12 @@ class CategoryViewController: UITableViewController {
         present(addPopup, animated: true, completion: nil)
     }
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return itemArray?.count ?? 1
@@ -60,10 +62,10 @@ class CategoryViewController: UITableViewController {
     //MARK - Tableview Datasource methods
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell")
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         let category = itemArray?[indexPath.row]
-        cell!.textLabel?.text = category?.name ?? "No Categorie added yet"
-        return cell!
+        cell.textLabel?.text = category?.name ?? "No Categoris Added Yet"
+        return cell
     }
     
     //MARK - Tableview Delegate methods
@@ -75,11 +77,11 @@ class CategoryViewController: UITableViewController {
         performSegue(withIdentifier: "goToItems", sender: currentCategory)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
-
-
+    
+    
+    
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
@@ -89,7 +91,7 @@ class CategoryViewController: UITableViewController {
             destinationVC.category = sender as? Category
         }
     }
-
+    
     
     //MARK: - data manipulation methods
     func save(category: Category) {
@@ -107,5 +109,21 @@ class CategoryViewController: UITableViewController {
     func loadData(_ filterString: String = "") {
         itemArray = realm.objects(Category.self)
     }
-
+    
+    override func updateModel(at indexPath: IndexPath) {
+        do {
+            if let categoryForDeletion = self.itemArray?[indexPath.row] {
+                try self.realm.write {
+                    self.realm.delete(categoryForDeletion)
+                }
+                
+                print("Item deleted")
+                //  self.tableView.reloadData()
+                // handle action by updating model with deletion
+            }
+        } catch {
+            print("Error deleting category")
+        }
+    }
+    
 }

@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: SwipeTableViewController {
     
     var items: Results<TodoItem>?
     let realm = try! Realm()
@@ -22,6 +22,7 @@ class TodoListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = 80.0
         print(FileManager.default.urls(for: .documentDirectory,
                                        in: .userDomainMask))
         print(category ?? "no Category")
@@ -43,7 +44,7 @@ class TodoListViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add Item", style: .default) {
             (action) in
-
+            
             if let currentCategory = self.category {
                 do {
                     try self.realm.write {
@@ -67,14 +68,13 @@ class TodoListViewController: UITableViewController {
     //MARK - Tableview Datasource methods
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         if let currentTodoItem = items?[indexPath.row] {
             cell.textLabel?.text = currentTodoItem.title
             cell.accessoryType = currentTodoItem.done ? .checkmark : .none
         } else {
             cell.textLabel?.text = "No items added"
         }
-        
         return cell
     }
     
@@ -111,6 +111,22 @@ class TodoListViewController: UITableViewController {
         }
         tableView.reloadData()
     }
+    
+    override func updateModel(at indexPath: IndexPath) {
+        do {
+            if let categoryForDeletion = self.items?[indexPath.row] {
+                try self.realm.write {
+                    self.realm.delete(categoryForDeletion)
+                }
+                
+                print("Item deleted")
+                //  self.tableView.reloadData()
+                // handle action by updating model with deletion
+            }
+        } catch {
+            print("Error deleting category")
+        }
+    }
 }
 
 extension TodoListViewController: UISearchBarDelegate {
@@ -133,4 +149,3 @@ extension TodoListViewController: UISearchBarDelegate {
         }
     }
 }
-
